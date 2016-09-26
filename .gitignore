@@ -1,0 +1,16 @@
+# Ignore the build and lib dirs
+build
+lib/*
+
+# Ignore any executables
+bin/*
+src/*.o
+src/main
+
+# ignores example files
+src/ex* 
+src/maint.cc
+src/test*
+
+# ignores temp files
+src/*.swp
