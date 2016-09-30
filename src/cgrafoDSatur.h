@@ -8,14 +8,16 @@
 
 class GrafoDSatur : public GenericGraph {
 private:
-   std::set<std::shared_ptr<NodoDSatur>> nodos;
+   std::multiset<std::shared_ptr<NodoDSatur>,fncomp> nodos;
 
 public:
    GrafoDSatur();
    GrafoDSatur(char *);
 
-   std::set<std::shared_ptr<Nodo>>::iterator getBegin();
-   std::set<std::shared_ptr<Nodo>>::iterator getEnd();
+   std::multiset<std::shared_ptr<NodoDSatur>,fncomp>::iterator getBegin();
+   std::multiset<std::shared_ptr<NodoDSatur>,fncomp>::iterator getEnd();
+
+   void updateSatur();
 
    size_t getSize() const;
 
@@ -23,6 +25,10 @@ public:
 
    /* DEBUG */
    void imprimeGrafo() const;
+
+   void callAddVizinho(uint32_t, uint32_t);
+
+   void insertInNodos(std::shared_ptr<NodoDSatur>&);
 };
 
 #endif

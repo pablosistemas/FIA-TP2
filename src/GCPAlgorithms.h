@@ -15,6 +15,8 @@ public:
   void criaGrafo(char *);
   virtual ~GCPAlgorithms();
   void imprimeGrafo() const;
+
+  uint32_t getK() const;
 };
 
 #endif

@@ -4,8 +4,7 @@
 #include "cnodos.h"
 #include <random>
 #include <iterator>
-
-#define MAX_COLORS 12 // obtido da heuristica GreedyAlgorithm
+#include "../include/registers.h"
 
 LocalSearch::LocalSearch(char *nomeArq){
   this->criaGrafo(nomeArq);

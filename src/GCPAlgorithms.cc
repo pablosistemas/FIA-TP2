@@ -5,10 +5,10 @@ void GCPAlgorithms::criaGrafo(char * nomeArq) {
 }
 
 // construtores
-GCPAlgorithms::GCPAlgorithms() : grafo(NULL) {}
+GCPAlgorithms::GCPAlgorithms() : grafo(NULL), k(0) {}
 
-GCPAlgorithms::GCPAlgorithms(char *nomeArq){
-  this->criaGrafo(nomeArq);
+GCPAlgorithms::GCPAlgorithms(char *nomeArq) : GCPAlgorithms() {
+   this->criaGrafo(nomeArq);
 }
 
 // destrutor
@@ -19,4 +19,8 @@ GCPAlgorithms::~GCPAlgorithms() {
 
 void GCPAlgorithms::imprimeGrafo() const {
   this->grafo->imprimeGrafo();
+}
+
+uint32_t GCPAlgorithms::getK() const {
+   return k;
 }
