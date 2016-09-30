@@ -7,7 +7,7 @@
 #include <memory>
 
 class Nodo {
-private:
+protected:
    uint32_t color;
    // std::vector<std::shared_ptr<Nodo>> vizinhos;
    std::vector<std::weak_ptr<Nodo>> vizinhos;

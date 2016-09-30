@@ -2,14 +2,16 @@
 #define __CNODOSDSATUR_H_INCLUDED__
 
 #include <cinttypes>
-#include "cnodos.h"
-#include <set>
+#include <vector>
 #include <memory>
+#include <iostream>
 
-class NodoDSatur : public Nodo {
+class NodoDSatur {
 private:
+   uint32_t idx;
+   uint32_t color;
    uint32_t degreeOfSaturation;
-   std::set<std::shared_ptr<NodoDSatur>> nodos;
+   std::vector<std::weak_ptr<NodoDSatur>> vizinhos;
 
 public:
    NodoDSatur();
@@ -17,8 +19,30 @@ public:
 
    void setSatur();
    uint32_t getSatur() const;
+
+   uint32_t getIdx() const;
+
+   void addVizinho (std::shared_ptr<NodoDSatur>);
+
+   uint32_t getNumVizinhos() const;
+   void printNeighbors() const;
+
+   void setColor (uint32_t);
+   uint32_t getColor () const;
+
+   //std::set<std::weak_ptr<NodoDSatur>>::const_iterator getVizinho(uint32_t) const;
+
+   uint32_t setAvailableColor(uint32_t);
+
+   friend std::ostream& operator<<(std::ostream&,const NodoDSatur&);
+
 };
 
-bool fncomp (const std::shared_ptr<NodoDSatur> &,
-         const std::shared_ptr<NodoDSatur> &);
+struct fncomp {
+   bool operator()(const std::shared_ptr<NodoDSatur> &n1, 
+      const std::shared_ptr<NodoDSatur> &n2) const;
+};
+
+
+
 #endif

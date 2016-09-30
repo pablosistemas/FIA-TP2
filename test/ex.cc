@@ -5,16 +5,27 @@
 /*                                                                   */
 /* ***************************************************************** */
 
-#include "cgrafoDSatur.h"
-#include "DSatur.h"
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <string>
 
 int main(int argc, char **argv) {
+   std::fstream in;
+   in.open( argv[1], std::ios::in );
+   
+   std::vector array;
 
-   DSatur dsatur(argv[1]);
-   dsatur.runAlgorithm();
-   dsatur.imprimeGrafo();
+   std::string linha;
 
-   std::cout << "Numero de cores utilizadas: " << dsatur.getK() << std::endl;
+   std::getline (in, linha);
+
+   while(!in.eof()){
+      std::istringstream inbuf(linha);
+      std::getline (in, linha);
+      in >> tok >> tipo >>
+      arrapy.push_back();
+   }
 
    return 0;
 }

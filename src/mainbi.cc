@@ -5,16 +5,16 @@
 /*                                                                   */
 /* ***************************************************************** */
 
-#include "cgrafoDSatur.h"
-#include "DSatur.h"
+#include "cgrafosBI.h"
+#include "BestImprovement.h"
 
 int main(int argc, char **argv) {
 
-   DSatur dsatur(argv[1]);
-   dsatur.runAlgorithm();
-   dsatur.imprimeGrafo();
+   BestImprovement bi(argv[1]);
+   bi.runAlgorithm();
+   bi.imprimeGrafo();
 
-   std::cout << "Numero de cores utilizadas: " << dsatur.getK() << std::endl;
+   std::cout << "Numero de cores utilizadas: " << bi.getNumColors() << "\nNumero de iteracoes: " << bi.getNumIterations() << std::endl;
 
    return 0;
 }

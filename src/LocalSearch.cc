@@ -4,8 +4,7 @@
 #include "cnodos.h"
 #include <random>
 #include <iterator>
-
-#define MAX_COLORS 12 // obtido da heuristica GreedyAlgorithm
+#include "../include/registers.h"
 
 LocalSearch::LocalSearch(char *nomeArq){
   this->criaGrafo(nomeArq);
@@ -34,11 +33,11 @@ bool LocalSearch::runAlgorithm(){
       // satisfying runs on each node verifying whether neighbors have different
       // colors
       while(!stoppingCriterion() && !satisfying()){
-         uint32_t choosenNode = distNodes(generator);      
+         uint32_t chosenNode = distNodes(generator);      
          std::vector<std::shared_ptr<Nodo>>::iterator iter;
          
          // chooses a random node of the graph
-         iter = (this->grafo->getBegin() + choosenNode);
+         iter = (this->grafo->getBegin() + chosenNode);
          
          // sets a random color to it
          std::shared_ptr<Nodo> temp = 

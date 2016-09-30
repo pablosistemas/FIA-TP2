@@ -5,16 +5,10 @@
 /*                                                                   */
 /* ***************************************************************** */
 
-#include "cgrafoDSatur.h"
-#include "DSatur.h"
+#include <iostream>
 
-int main(int argc, char **argv) {
+int main () {
+   bool isEqual = NULL == nullptr;
+   std::cout << isEqual << std::endl;
 
-   DSatur dsatur(argv[1]);
-   dsatur.runAlgorithm();
-   dsatur.imprimeGrafo();
-
-   std::cout << "Numero de cores utilizadas: " << dsatur.getK() << std::endl;
-
-   return 0;
 }

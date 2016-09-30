@@ -20,7 +20,7 @@ public:
 
    virtual size_t getSize() const = 0;
 
-   virtual void insertInNodos(std::shared_ptr<Nodo>&) = 0;
+   // virtual void insertInNodos(std::shared_ptr<Nodo>&) = 0;
    virtual void callAddVizinho(uint32_t, uint32_t) = 0;
 
    /* DEBUG */

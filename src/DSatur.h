@@ -1,13 +1,13 @@
 #ifndef __DSATUR_H__
 #define __DSATUR_H__
 
-#include <set>
 #include <memory>
-#include "GCPAlgorithms.h"
+#include "GCPAlgorithmsDSatur.h"
 
-class DSatur : public GCPAlgorithms() {
+class DSatur : public GCPAlgorithmsDSatur {
 public:
    DSatur(char *);
+   void randomInit();
    bool runAlgorithm();
 };
 
