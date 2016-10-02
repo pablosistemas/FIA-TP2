@@ -13,7 +13,7 @@
 GrafoBI::GrafoBI() : GenericGraph() {}
 
 GrafoBI::GrafoBI(char *nome_arq) : GrafoBI() {
-   this->leDoArquivo(nome_arq); 
+   this->leDoArquivo(nome_arq);
 }
 
 GrafoBI::GrafoBI(GrafoBI & gbi) {
@@ -22,12 +22,12 @@ GrafoBI::GrafoBI(GrafoBI & gbi) {
    // copies vector of NEW shared pointers to nodos
    // The copy is necessary to avoid that internal modification
    // could affect the original graph
-   //this->nodos = gbi.getNodos();      
+   //this->nodos = gbi.getNodos();
    std::function<void(NodoBI *)> destroy = [](NodoBI *p) {
          // std::cout << "deleting copy: "<< p << "\n";
-         delete p;  
+         delete p;
    };
-   
+
    // copies all nodes
    for(auto ptr : gbi.getNodos()) {
       std::shared_ptr<NodoBI> t (new NodoBI(ptr),destroy);
@@ -41,7 +41,7 @@ GrafoBI::GrafoBI(GrafoBI & gbi) {
          auto it = ptr.get()->getVizinho(i);
          uint32_t idVizinho = (it->lock()).get()->getID();
          // std::cout << "id vizinho: " << idVizinho << "\n";
-         nodos[ptr.get()->getID()-1].get()->addVizinho(nodos[idVizinho-1]); 
+         nodos[ptr.get()->getID()-1].get()->addVizinho(nodos[idVizinho-1]);
       }
    }
 
@@ -74,7 +74,6 @@ void GrafoBI::callAddVizinho(uint32_t idx1, uint32_t idx2) {
    // 0 indexed
    // std::cout << "1: " << idx1+1 << " 2: " << idx2+1 << "\n";
    this->nodos[idx1]->addVizinho(nodos[idx2]);
-   //this->nodos[idx2]->addVizinho(nodos[idx1]);
 }
 
 void GrafoBI::leDoArquivo(char *nomeArq) {
@@ -106,7 +105,7 @@ void GrafoBI::leDoArquivo(char *nomeArq) {
             for(uint32_t i = 0; i < this->V; i++) {
                std::shared_ptr<NodoBI> t (new NodoBI(i+1),[](NodoBI *p) {
                   // std::cout << "deleting element\n";
-                  delete p;  
+                  delete p;
                });
                // set container
                this->insertInNodos(t);
@@ -128,15 +127,15 @@ void GrafoBI::leDoArquivo(char *nomeArq) {
 }
 
 // Sets the graph's conflicts number. This is equal the sum of the
-// conflicts for each node in the graph. Nodes conflicts are 
+// conflicts for each node in the graph. Nodes conflicts are
 // re-evaluated only when there is a pending modification, on the
 // other hand, the current node conflict number is returned to
 // save time
 void GrafoBI::setGraphNumConflicts() {
    numConflicts = 0;
    for(auto ptr : nodos) {
-      ptr.get()->setNodoNumConflicts();//verifyAndSetNodoNumConflicts();  
-      numConflicts += ptr.get()->getNodoNumConflicts();  
+      ptr.get()->setNodoNumConflicts();//verifyAndSetNodoNumConflicts();
+      numConflicts += ptr.get()->getNodoNumConflicts();
    }
 }
 

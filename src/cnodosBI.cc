@@ -11,7 +11,7 @@ NodoBI::NodoBI() : Nodo(), numConflicts(0), isModified(false) {}
 
 NodoBI::NodoBI(uint32_t iid) : NodoBI() { id = iid; }
 
-NodoBI::NodoBI(std::shared_ptr<NodoBI> & n) { 
+NodoBI::NodoBI(std::shared_ptr<NodoBI> & n) {
    id = n.get()->getID();
    color = n.get()->getColor();
    numConflicts = n.get()->getNodoNumConflicts();
@@ -42,7 +42,7 @@ void NodoBI::verifyAndSetNodoNumConflicts() {
 void NodoBI::setNodoNumConflicts() {
    this->numConflicts = 0;
    for(auto ptr : vizinhosBI) {
-      // Also calls setNodoNumConflicts for the neighbors 
+      // Also calls setNodoNumConflicts for the neighbors
       // to guarantee persistence
       // ptr.lock().get()->setNodoNumConflicts();
       if(ptr.lock().get()->getColor() == color)
@@ -62,7 +62,7 @@ uint32_t NodoBI::getID() const {
 
 // For printing nodes in easy way, only type std::cout << node;
 std::ostream &operator<<(std::ostream &stream, const NodoBI &n) {
-   
+
    stream << "Addr: " << &n <<"\tId: " << n.getID() << "\tColor: " << n.getColor() << "\tNum conflicts: " << n.getNodoNumConflicts()<<"\nVizinhos: ";
    for(uint32_t i = 0; i < n.getNumVizinhos(); i++){
 

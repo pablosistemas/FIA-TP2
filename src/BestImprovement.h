@@ -27,6 +27,7 @@ public:
    uint32_t getNumColors() const;
 
    bool runAlgorithm();
+
    GrafoBI* criaVizinhos();
 
    void setNumberOfConflicts();
@@ -35,6 +36,7 @@ public:
    void randomInit();
 
    uint32_t getNumIterations() const;
+
 };
 
 #endif

@@ -34,6 +34,7 @@ public:
    void setGraphNumConflicts();
 
    uint32_t getGraphNumConflicts() const;
+
    std::vector<std::shared_ptr<NodoBI>>& getNodos();
 
    uint32_t numColors() const;

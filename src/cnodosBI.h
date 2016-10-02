@@ -23,6 +23,7 @@ public:
 
    void setNodoNumConflicts();
    void verifyAndSetNodoNumConflicts();
+
    uint32_t getNodoNumConflicts() const;
 
    uint32_t getID() const;
