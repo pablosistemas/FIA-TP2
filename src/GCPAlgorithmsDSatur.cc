@@ -5,7 +5,7 @@ void GCPAlgorithmsDSatur::criaGrafo(char * nomeArq) {
 }
 
 // construtores
-GCPAlgorithmsDSatur::GCPAlgorithmsDSatur() : grafo(NULL), k(0) {}
+GCPAlgorithmsDSatur::GCPAlgorithmsDSatur() : Experiment(), grafo(NULL) /*, k(0)*/ {}
 
 GCPAlgorithmsDSatur::GCPAlgorithmsDSatur(char *nomeArq) : GCPAlgorithmsDSatur() {
   this->criaGrafo(nomeArq);
@@ -21,6 +21,6 @@ void GCPAlgorithmsDSatur::imprimeGrafo() const {
    this->grafo->imprimeGrafo();
 }
 
-uint32_t GCPAlgorithmsDSatur::getK() const {
+/*uint32_t GCPAlgorithmsDSatur::getK() const {
    return k;
-}
+}*/

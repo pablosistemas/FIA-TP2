@@ -5,16 +5,15 @@
 /*                                                                   */
 /* ***************************************************************** */
 
-#include "cgrafoDSatur.h"
-#include "DSatur.h"
+#include "cgrafos.h"
+#include "GreedyAlgorithm.h"
+// #include "cgrafoDSatur.h"
 
 int main(int argc, char **argv) {
 
-   DSatur dsatur(argv[1]);
-   dsatur.runAlgorithm();
-   dsatur.imprimeGrafo();
-   dsatur.printResults();
-   //std::cout << "Numero de cores utilizadas: " << dsatur.getK() << std::endl;
+   GreedyAlgorithm greedy(argv[1]);
+   greedy.runAlgorithm();
+   greedy.printResults();
 
    return 0;
 }

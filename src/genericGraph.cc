@@ -19,6 +19,8 @@ GenericGraph::GenericGraph(char *nomearq) : GenericGraph() {
    //this->leDoArquivo(nomearq);   
 }
 
+GenericGraph::~GenericGraph() {}
+
 uint32_t GenericGraph::getV() const {
    return V;
 }

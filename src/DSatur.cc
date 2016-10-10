@@ -47,8 +47,7 @@ bool DSatur::runAlgorithm() {
 
    std::set<std::shared_ptr<NodoDSatur>>::iterator it = grafo->getBegin();
 
-   // It colors the first vertex with color one 
-   
+   // It colors the first vertex with the first color
    std::shared_ptr<NodoDSatur> temp = 
       std::dynamic_pointer_cast<NodoDSatur>(*it);  
    
@@ -61,9 +60,15 @@ bool DSatur::runAlgorithm() {
          std::dynamic_pointer_cast<NodoDSatur>(*it);  
     
       uint32_t ncolor = temp.get()->setAvailableColor(this->grafo->getSize());
-      
-      if(ncolor > this->k)
-         this->k = ncolor;   
+      // sets this nodo as colored because it can be reordered and
+      // colored again in the same iteration without this step
+      temp.get()->setIsColored(); 
+
+      /*if(ncolor > this->k)
+         this->k = ncolor;   */
+   
+      if(ncolor > this->numColors)
+         this->numColors = ncolor;
    
    }
 

@@ -13,6 +13,7 @@ private:
 public:
    GrafoDSatur();
    GrafoDSatur(char *);
+   ~GrafoDSatur();
 
    std::multiset<std::shared_ptr<NodoDSatur>,fncomp>::iterator getBegin();
    std::multiset<std::shared_ptr<NodoDSatur>,fncomp>::iterator getEnd();

@@ -2,21 +2,25 @@
 #define __GCPALGORITHMS_H__
 
 #include "cgrafos.h"
+#include "Experiment.h"
 
-class GCPAlgorithms {
+class GCPAlgorithms : public Experiment {
 protected:
   Grafo * grafo;
   // numero de cores usada
-  uint32_t k; 
+  // uint32_t k; 
+  Grafo * minimal;
+
 public:
   GCPAlgorithms();
   GCPAlgorithms(char *);
+  ~GCPAlgorithms();
+
   virtual bool runAlgorithm()=0;
   void criaGrafo(char *);
-  virtual ~GCPAlgorithms();
   void imprimeGrafo() const;
 
-  uint32_t getK() const;
+  // uint32_t getK() const;
 };
 
 #endif

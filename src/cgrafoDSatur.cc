@@ -16,6 +16,8 @@
 
 GrafoDSatur::GrafoDSatur() {}
 
+GrafoDSatur::~GrafoDSatur() {}
+
 // construtor invoca leitura do arquivo para alocação do grafo
 GrafoDSatur::GrafoDSatur (char *nomeArq) : GrafoDSatur() {
    leDoArquivo (nomeArq);

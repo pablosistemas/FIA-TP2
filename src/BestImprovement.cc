@@ -11,13 +11,17 @@
 // FIXME
 #include "../include/registers.h"
 
-BestImprovement::BestImprovement() : numConflicts(0), numIterations(0) {}
+//BestImprovement::BestImprovement() : numConflicts(0), numIterations(0) {}
+BestImprovement::BestImprovement() : Experiment() {}
 
 BestImprovement::BestImprovement(char *nome_arq) : BestImprovement() {
    this->criaGrafo(nome_arq);
 }
 
-BestImprovement::~BestImprovement() {}
+// overloads virtual destructor from Improvement class
+BestImprovement::~BestImprovement() { 
+   delete grafo;
+}
 
 void BestImprovement::criaGrafo(char *nome_arq) {
    this->grafo = new GrafoBI(nome_arq);
@@ -30,14 +34,17 @@ bool BestImprovement::runAlgorithm() {
       delete p;
    };
 
+   // initializes conflicts with random graph number of conflicts
    randomInit();
+   numConflicts = grafo->getGraphNumConflicts();
 
    //grafo->imprimeGrafo();
    this->setNumberOfConflicts();
    // int ttt;
    // std::cin >> ttt;
-   while(grafo->getGraphNumConflicts() > 0 && numIterations < MAX_ITER){
+   while(numConflicts > 0 && numIterations < MAX_ITER){
       // std::cout << "iteracao: " << numIterations << std::endl;
+      // Presuming that criaViznhos always will return a valid pointer?
       GrafoBI* t = criaVizinhos();
       // t.get()->imprimeGrafo();
 
@@ -57,9 +64,11 @@ bool BestImprovement::runAlgorithm() {
       }
 
       numIterations++;
+      numConflicts = grafo->getGraphNumConflicts();
    }
 
-   k = grafo->numColors();
+   //k = grafo->numColors();
+   numColors = grafo->numColors();
 
    return true;
 };
@@ -150,19 +159,19 @@ void BestImprovement::imprimeGrafo() const {
    this->grafo->imprimeGrafo();
 }
 
-uint32_t BestImprovement::getNumColors() const {
-   return k;
-}
-
 void BestImprovement::setNumberOfConflicts() {
    this->grafo->setGraphNumConflicts();
    numConflicts = this->grafo->getGraphNumConflicts();
 }
 
-uint32_t BestImprovement::getNumberOfConflicts() const {
+/*uint32_t BestImprovement::getNumberOfConflicts() const {
    return numConflicts;
+}
+
+uint32_t BestImprovement::getNumColors() const {
+   return k;
 }
 
 uint32_t BestImprovement::getNumIterations() const {
    return numIterations;
-}
+}*/

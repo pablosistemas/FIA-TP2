@@ -2,12 +2,13 @@
 #define __GCPALGORITHMSDSATUR_H__
 
 #include "cgrafoDSatur.h"
+#include "Experiment.h"
 
-class GCPAlgorithmsDSatur {
+class GCPAlgorithmsDSatur : public Experiment {
 protected:
   GrafoDSatur * grafo;
   // numero de cores usada
-  uint32_t k; 
+  // uint32_t k; 
 public:
   GCPAlgorithmsDSatur();
   GCPAlgorithmsDSatur(char *);
@@ -16,7 +17,7 @@ public:
   virtual ~GCPAlgorithmsDSatur();
   void imprimeGrafo() const;
 
-  uint32_t getK() const;
+  //uint32_t getK() const;
 };
 
 #endif

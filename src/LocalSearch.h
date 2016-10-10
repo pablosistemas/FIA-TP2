@@ -5,11 +5,20 @@
 
 class LocalSearch : public GCPAlgorithms {
 public:
-    LocalSearch(char *);
-    bool runAlgorithm();
-    // derived classes must implement this function: random walk, random restart
-    virtual bool stoppingCriterion() const = 0;
-    bool satisfying() const;
+   LocalSearch(char *);
+   virtual ~LocalSearch();
+   bool runAlgorithm();
+   void grafo2Minimal();
+   bool isMinimalWorse() const;
+   void updateGraphColorsAndConflicts();
+   void updateLocalColorsAndConflicts();
+   
+   // overloading
+   void printResults() const;
+
+   // derived classes must implement this function: random walk, random restart
+   virtual bool stoppingCriterion() const = 0;
+   bool satisfying() const;
 };
 
 #endif

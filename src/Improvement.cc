@@ -11,7 +11,8 @@
 // FIXME
 #include "../include/registers.h"
 
-Improvement::Improvement() : numConflicts(0), numIterations(0) {}
+// Improvement::Improvement() : numConflicts(0), numIterations(0) {}
+Improvement::Improvement() : Experiment() {}
 
 Improvement::Improvement(char *nome_arq) : Improvement() {
    this->criaGrafo(nome_arq);
@@ -23,6 +24,7 @@ void Improvement::criaGrafo(char *nome_arq) {
    this->grafo = new GrafoBI(nome_arq);
 }
 
+// randomly initializes the graph and sets its number of colors
 void Improvement::randomInit() {
 
    std::default_random_engine generator;
@@ -36,25 +38,27 @@ void Improvement::randomInit() {
          std::dynamic_pointer_cast<NodoBI>(*it);
       temp.get()->setColor(distColors(generator));
    }
+   // sets numColors
+   grafo->setNumColors();
 }
 
 void Improvement::imprimeGrafo() const {
    this->grafo->imprimeGrafo();
 }
 
-uint32_t Improvement::getNumColors() const {
+/*uint32_t Improvement::getNumColors() const {
    return k;
-}
+}*/
 
 void Improvement::setNumberOfConflicts() {
    this->grafo->setGraphNumConflicts();
    numConflicts = this->grafo->getGraphNumConflicts();
 }
 
-uint32_t Improvement::getNumberOfConflicts() const {
+/*uint32_t Improvement::getNumberOfConflicts() const {
    return numConflicts;
-}
+}*/
 
-uint32_t Improvement::getNumIterations() const {
+/*uint32_t Improvement::getNumIterations() const {
    return numIterations;
-}
+}*/

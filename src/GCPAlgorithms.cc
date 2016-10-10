@@ -5,7 +5,7 @@ void GCPAlgorithms::criaGrafo(char * nomeArq) {
 }
 
 // construtores
-GCPAlgorithms::GCPAlgorithms() : grafo(NULL), k(0) {}
+GCPAlgorithms::GCPAlgorithms() : Experiment(), grafo(nullptr), minimal(nullptr)/*, k(0)*/ {}
 
 GCPAlgorithms::GCPAlgorithms(char *nomeArq) : GCPAlgorithms() {
    this->criaGrafo(nomeArq);
@@ -15,12 +15,13 @@ GCPAlgorithms::GCPAlgorithms(char *nomeArq) : GCPAlgorithms() {
 GCPAlgorithms::~GCPAlgorithms() {
    // std::cout << "deleting graph" << std::endl;
    delete grafo;
+   delete minimal;
 }
 
 void GCPAlgorithms::imprimeGrafo() const {
   this->grafo->imprimeGrafo();
 }
 
-uint32_t GCPAlgorithms::getK() const {
+/*uint32_t GCPAlgorithms::getK() const {
    return k;
-}
+}*/

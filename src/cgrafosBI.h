@@ -10,6 +10,7 @@ class GrafoBI : public GenericGraph {
 protected:
    std::vector<std::shared_ptr<NodoBI>> nodos;
    uint32_t numConflicts;
+   uint32_t numColors;
 
 public:
 
@@ -37,8 +38,9 @@ public:
 
    std::vector<std::shared_ptr<NodoBI>>& getNodos();
 
-   uint32_t numColors() const;
-
+   void setNumColors();
+   
+   uint32_t getNumColors() const;
 };
 
 #endif
