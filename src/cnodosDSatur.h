@@ -11,6 +11,7 @@ private:
    uint32_t idx;
    uint32_t color;
    uint32_t degreeOfSaturation;
+   bool isColored;
    std::vector<std::weak_ptr<NodoDSatur>> vizinhos;
 
 public:
@@ -29,6 +30,9 @@ public:
 
    void setColor (uint32_t);
    uint32_t getColor () const;
+
+   void setIsColored();
+   void unsetIsColored();
 
    //std::set<std::weak_ptr<NodoDSatur>>::const_iterator getVizinho(uint32_t) const;
 

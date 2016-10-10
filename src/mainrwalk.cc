@@ -5,25 +5,19 @@
 /*                                                                   */
 /* ***************************************************************** */
 
-#include "cgrafos.h"
-#include "GreedyAlgorithm.h"
-// #include "cgrafoDSatur.h"
+#include "cgrafosBI.h"
+#include "RandomWalk.h"
 
 int main(int argc, char **argv) {
-   //Grafo temp(argv[1]);
+   if (argc < 2){
+      std::cout << "Usage:\n\t./main path-to-input-file\n";
+   }
 
-   //temp.imprimeGrafo();
-
-   GreedyAlgorithm greedy(argv[1]);
-
-   //greedy.imprimeGrafo();
-
-   greedy.runAlgorithm();
-
-   greedy.imprimeGrafo();
-
-   // DSaturGreedyAlgorithm greedy(argv[1]);
-   // greedy.runAlgorithm();
+   RandomWalk rwalk(argv[1]);
+   //rwalk.imprimeGrafo();
+   rwalk.runAlgorithm();
+   rwalk.printResults();
+   // std::cout << "Numero de cores utilizadas: " << bi.getNumColors() << "\nNumero de iteracoes: " << bi.getNumIterations() << "\nNumero de conflitos: " << bi.getNumberOfConflicts() <<  std::endl;
 
    return 0;
 }

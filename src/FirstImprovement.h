@@ -15,6 +15,14 @@ public:
    GrafoBI* criaVizinhos();
    bool runAlgorithm();
 
+   // overloaded
+   void printR();
+
+};
+
+class fifncomp {
+public:
+   bool operator()(std::shared_ptr<GrafoBI> &, std::shared_ptr<GrafoBI> &);
 };
 
 #endif

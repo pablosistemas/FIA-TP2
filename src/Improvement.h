@@ -4,15 +4,16 @@
 #include "cgrafosBI.h"
 #include <memory>
 #include <vector>
+#include "Experiment.h"
 
-class Improvement {
+class Improvement : public Experiment {
 protected:
    GrafoBI * grafo;
-   
+
    // Algorithm outputs
-   uint32_t k; // number of colors used to completely color 'grafo'
-   uint32_t numConflicts; // number of conflicts in 'grafo'
-   uint32_t numIterations;
+   // uint32_t k; // number of colors used to completely color 'grafo'
+   // uint32_t numConflicts; // number of conflicts in 'grafo'
+   // uint32_t numIterations;
 
    std::vector<std::shared_ptr<GrafoBI>> ranking;
 
@@ -25,7 +26,7 @@ public:
 
    void imprimeGrafo() const;
 
-   uint32_t getNumColors() const;
+   // uint32_t getNumColors() const;
 
    virtual bool runAlgorithm() = 0;
 
@@ -33,11 +34,11 @@ public:
 
    void setNumberOfConflicts();
 
-   uint32_t getNumberOfConflicts() const;
+   // uint32_t getNumberOfConflicts() const;
 
    void randomInit();
 
-   uint32_t getNumIterations() const;
+   // uint32_t getNumIterations() const;
 
 };
 

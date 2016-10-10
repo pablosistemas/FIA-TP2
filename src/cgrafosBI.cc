@@ -134,7 +134,7 @@ void GrafoBI::leDoArquivo(char *nomeArq) {
 void GrafoBI::setGraphNumConflicts() {
    numConflicts = 0;
    for(auto ptr : nodos) {
-      ptr.get()->setNodoNumConflicts();//verifyAndSetNodoNumConflicts();
+      ptr.get()->setNodoNumConflicts();
       numConflicts += ptr.get()->getNodoNumConflicts();
    }
 }
@@ -149,7 +149,7 @@ void GrafoBI::imprimeGrafo() const {
    }
 }
 
-uint32_t GrafoBI::numColors() const {
+void GrafoBI::setNumColors() {
    std::vector<uint32_t> usedColors(MAX_COLORS,0);
    uint32_t differentColors = 0;
    for (auto ptr : nodos) {
@@ -158,5 +158,9 @@ uint32_t GrafoBI::numColors() const {
          differentColors++;
       }
    }
-   return differentColors;
+   numColors = differentColors;
+}
+
+uint32_t GrafoBI::getNumColors() const {
+   return numColors;
 }

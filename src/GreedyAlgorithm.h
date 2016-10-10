@@ -2,13 +2,18 @@
 #define __GREEDYALGORITHM_H__
 
 #include "GCPAlgorithms.h"
+#include "Experiment.h"
 
 class GreedyAlgorithm : public GCPAlgorithms {
 public:
-    GreedyAlgorithm(char *);
-    ~GreedyAlgorithm();
+   GreedyAlgorithm(char *);
+   ~GreedyAlgorithm();
 
-    bool runAlgorithm();
+   void updateGraphColorsAndConflicts();
+   void updateLocalColorsAndConflicts();
+
+   bool runAlgorithm();
+
 };
 
 #endif

@@ -11,6 +11,19 @@ GreedyAlgorithm::~GreedyAlgorithm() {
    // std::cout << "Destructing greedy" << std::endl;
 }
 
+// updates numColors used and numConflicts
+void GreedyAlgorithm::updateGraphColorsAndConflicts() {
+   grafo->setGraphNumConflicts();
+   grafo->setNumColors();
+}
+
+void GreedyAlgorithm::updateLocalColorsAndConflicts() {
+   numConflicts = grafo->getGraphNumConflicts();
+   numColors = grafo->getNumColors();
+}
+
+
+
 bool GreedyAlgorithm::runAlgorithm(){
    if(this->grafo == nullptr){
       throw "GRAFO nao alocado\n";
@@ -32,11 +45,15 @@ bool GreedyAlgorithm::runAlgorithm(){
       uint32_t ncolor = 
          temp.get()->setAvailableColor(this->grafo->getSize());
       
-      if(ncolor > this->k)
-         this->k = ncolor;   
+      //if(ncolor > this->k)
+      if(ncolor > this->numColors)
+         this->numColors = ncolor;   
       // it->setColor(i++);
       // temp.get()->printNeighbors();
    }
+
+   updateGraphColorsAndConflicts();
+   updateLocalColorsAndConflicts();
 
   return true;
 }

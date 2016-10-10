@@ -10,7 +10,7 @@
 #include <vector>
 #include <algorithm>
 
-Nodo::Nodo(): color(0) {}
+Nodo::Nodo(): color(0), numConflicts(0) {}
 
 Nodo::Nodo(uint32_t col) {
    color = col;
@@ -43,6 +43,20 @@ void Nodo::setColor (uint32_t col) {
 
 uint32_t Nodo::getColor () const {
    return this->color;
+}
+
+void Nodo::setNodoNumConflicts() {
+   this->numConflicts = 0;
+   for(auto ptr : vizinhos) {
+      // Also calls setNodoNumConflicts for the neighbors
+      // to guarantee persistence
+      if(ptr.lock().get()->getColor() == color)
+         this->numConflicts++;
+   }
+}
+
+uint32_t Nodo::getNodoNumConflicts() const {
+   return numConflicts;
 }
 
 std::ostream& operator<< (std::ostream& os, const Nodo &no) {

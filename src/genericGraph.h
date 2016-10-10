@@ -14,6 +14,7 @@ protected:
 public:
    GenericGraph();
    GenericGraph(char *);
+   ~GenericGraph();
 
    uint32_t getV() const;
    uint32_t getE() const;

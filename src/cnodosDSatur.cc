@@ -109,3 +109,11 @@ uint32_t NodoDSatur::getNumVizinhos() const {
 uint32_t NodoDSatur::getIdx() const {
    return idx;
 }
+
+void NodoDSatur::setIsColored() {
+   isColored = true;
+};
+
+void NodoDSatur::unsetIsColored() {
+   isColored = false;
+};;
