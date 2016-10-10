@@ -1,8 +1,8 @@
 #include "RandomSampling.h"
 
-RandomSampling::~RandomSampling(){
-   delete grafo;
-}
+RandomSampling::RandomSampling(char *nome_arq) : LocalSearch(nome_arq) {}
+
+RandomSampling::~RandomSampling(){}
 
 // the stopping criterion is always true so the while loop
 // is never executed. Random Sampling keeps picking random assignments

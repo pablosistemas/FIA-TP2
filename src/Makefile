@@ -82,7 +82,7 @@ fi : $(FIDEPEND) mainfi.cc
 rwalk : $(RANDOMWALK) mainrwalk.cc
 	g++ $(CFLAGS) $(RANDOMWALK) mainrwalk.cc -o $(PROGRAM)
 
-rsampling : $(RANDOMWALK) mainsampling.cc
+rsampling : $(RANDOMSAMPLING) mainsampling.cc
 	g++ $(CFLAGS) $(RANDOMSAMPLING) mainsampling.cc -o $(PROGRAM)
 
 clean :
