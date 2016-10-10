@@ -36,17 +36,11 @@ bool BestImprovement::runAlgorithm() {
 
    // initializes conflicts with random graph number of conflicts
    randomInit();
-   numConflicts = grafo->getGraphNumConflicts();
+   setNumberOfConflicts();
 
-   //grafo->imprimeGrafo();
-   this->setNumberOfConflicts();
-   // int ttt;
-   // std::cin >> ttt;
    while(numConflicts > 0 && numIterations < MAX_ITER){
-      // std::cout << "iteracao: " << numIterations << std::endl;
       // Presuming that criaViznhos always will return a valid pointer?
       GrafoBI* t = criaVizinhos();
-      // t.get()->imprimeGrafo();
 
       // if the new graph is better than current one, updates
       // else, random we reach a minimal local point, it must be updated
@@ -54,7 +48,6 @@ bool BestImprovement::runAlgorithm() {
          delete grafo;
          grafo = t;
       } else {
-
          delete t;
          // TODO: saves current graph
          std::shared_ptr<GrafoBI> tt (new GrafoBI(*grafo),destroy);
@@ -67,8 +60,8 @@ bool BestImprovement::runAlgorithm() {
       numConflicts = grafo->getGraphNumConflicts();
    }
 
-   //k = grafo->numColors();
-   numColors = grafo->numColors();
+   grafo->setNumColors();
+   numColors = grafo->getNumColors();
 
    return true;
 };
@@ -103,8 +96,8 @@ GrafoBI* BestImprovement::criaVizinhos() {
 
          // sets color in appropriate nodo in g
          auto itg = g->getBegin() + (it-begin);
-
          itg->get()->setColor(i);
+
          g->setGraphNumConflicts();
 
          //std::cout << "grafo modificado:\n";
@@ -133,8 +126,8 @@ GrafoBI* BestImprovement::criaVizinhos() {
             delete g;
       }
       // sets graph's original state
-      it->get()->setColor(corOriginal);
-      this->numConflicts = conflitosOriginal;
+      //it->get()->setColor(corOriginal);
+      //this->numConflicts = conflitosOriginal;
    }
    return proxGrafo;
 }

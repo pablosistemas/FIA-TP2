@@ -6,15 +6,16 @@
 /* ***************************************************************** */
 
 #include "cgrafosBI.h"
-#include "BestImprovement.h"
+#include "RandomSampling.h"
 
 int main(int argc, char **argv) {
    if (argc < 2){
       std::cout << "Usage:\n\t./main path-to-input-file\n";
    }
-   BestImprovement bi(argv[1]);
-   bi.runAlgorithm();
-   bi.printResults();
+
+   RandomSampling s(argv[1]);
+   s.runAlgorithm();
+   s.printResults();
 
    return 0;
 }
