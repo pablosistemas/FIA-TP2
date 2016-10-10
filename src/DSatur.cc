@@ -9,6 +9,7 @@
 #include "../include/registers.h"
 #include "cnodosDSatur.h"
 #include <random>
+#include <chrono>
 #include <iterator>
 #include <cinttypes>
 #include <iostream>
@@ -18,7 +19,13 @@ DSatur::DSatur(char *nome_arq) : GCPAlgorithmsDSatur(nome_arq) {}
 void DSatur::randomInit() {
    std::set<std::shared_ptr<NodoDSatur>,fncomp>::iterator it;
 
-   std::default_random_engine generator;
+   // generates a new seed
+   typedef std::chrono::high_resolution_clock myclock;
+   myclock::time_point beggining = myclock::now();
+   myclock::duration d = myclock::now() - beggining;   
+   unsigned seed1 = d.count();
+
+   std::default_random_engine generator(seed1);
    std::uniform_int_distribution<uint32_t> distColors(1,MAX_COLORS);
 
    for(it = grafo->getBegin(); it != grafo->getEnd(); it++) {
