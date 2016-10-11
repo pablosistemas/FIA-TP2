@@ -7,17 +7,14 @@
 class GCPAlgorithmsDSatur : public Experiment {
 protected:
   GrafoDSatur * grafo;
-  // numero de cores usada
-  // uint32_t k; 
 public:
   GCPAlgorithmsDSatur();
   GCPAlgorithmsDSatur(char *);
+  ~GCPAlgorithmsDSatur();
+
   virtual bool runAlgorithm()=0;
   void criaGrafo(char *);
-  virtual ~GCPAlgorithmsDSatur();
   void imprimeGrafo() const;
-
-  //uint32_t getK() const;
 };
 
 #endif

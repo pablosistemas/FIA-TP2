@@ -5,22 +5,17 @@ void GCPAlgorithmsDSatur::criaGrafo(char * nomeArq) {
 }
 
 // construtores
-GCPAlgorithmsDSatur::GCPAlgorithmsDSatur() : Experiment(), grafo(NULL) /*, k(0)*/ {}
+GCPAlgorithmsDSatur::GCPAlgorithmsDSatur() : Experiment(), grafo(NULL) {}
 
 GCPAlgorithmsDSatur::GCPAlgorithmsDSatur(char *nomeArq) : GCPAlgorithmsDSatur() {
   this->criaGrafo(nomeArq);
 }
 
-// destrutor
+// destructor
 GCPAlgorithmsDSatur::~GCPAlgorithmsDSatur() {
-   // std::cout << "deleting graph" << std::endl;
    delete grafo;
 }
 
 void GCPAlgorithmsDSatur::imprimeGrafo() const {
    this->grafo->imprimeGrafo();
 }
-
-/*uint32_t GCPAlgorithmsDSatur::getK() const {
-   return k;
-}*/

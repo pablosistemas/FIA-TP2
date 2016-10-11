@@ -9,8 +9,11 @@
 class Nodo {
 protected:
    uint32_t color;
+   // anumber of conflicts among nodo and its neighbors
    uint32_t numConflicts;
-   // std::vector<std::shared_ptr<Nodo>> vizinhos;
+   // weak pointer do not increment the counter for tthe reference
+   // if the main instance of shared pointer is deleted, thweak pointer loses
+   // the reference to the object
    std::vector<std::weak_ptr<Nodo>> vizinhos;
 
 public:

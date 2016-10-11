@@ -6,7 +6,6 @@
 class RandomSampling : public LocalSearch {
 public:
     RandomSampling(char *);
-    virtual ~RandomSampling();
 
     // derived classes must implement this function: random walk, random restart
     bool stoppingCriterion() const;

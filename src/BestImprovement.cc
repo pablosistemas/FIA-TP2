@@ -12,7 +12,7 @@
 #include "../include/registers.h"
 
 //BestImprovement::BestImprovement() : numConflicts(0), numIterations(0) {}
-BestImprovement::BestImprovement() : Experiment() {}
+BestImprovement::BestImprovement() : Improvement() {}
 
 BestImprovement::BestImprovement(char *nome_arq) : BestImprovement() {
    this->criaGrafo(nome_arq);
@@ -21,10 +21,6 @@ BestImprovement::BestImprovement(char *nome_arq) : BestImprovement() {
 // overloads virtual destructor from Improvement class
 BestImprovement::~BestImprovement() { 
    delete grafo;
-}
-
-void BestImprovement::criaGrafo(char *nome_arq) {
-   this->grafo = new GrafoBI(nome_arq);
 }
 
 bool BestImprovement::runAlgorithm() {
@@ -42,9 +38,12 @@ bool BestImprovement::runAlgorithm() {
       // Presuming that criaViznhos always will return a valid pointer?
       GrafoBI* t = criaVizinhos();
 
+      if(t == nullptr) {
+         randomInit();
+      }
       // if the new graph is better than current one, updates
       // else, random we reach a minimal local point, it must be updated
-      if(t->getGraphNumConflicts() < grafo->getGraphNumConflicts()){
+      else if(t->getGraphNumConflicts() < grafo->getGraphNumConflicts()){
          delete grafo;
          grafo = t;
       } else {
@@ -56,8 +55,10 @@ bool BestImprovement::runAlgorithm() {
          randomInit();
       }
 
-      numIterations++;
+      // updates stop criteria
       numConflicts = grafo->getGraphNumConflicts();
+      numColors = grafo->getNumColors();
+      numIterations++;
    }
 
    grafo->setNumColors();
@@ -131,40 +132,3 @@ GrafoBI* BestImprovement::criaVizinhos() {
    }
    return proxGrafo;
 }
-
-void BestImprovement::randomInit() {
-
-   std::default_random_engine generator;
-   std::uniform_int_distribution<uint32_t> distColors(1,MAX_COLORS);
-   std::uniform_int_distribution<uint32_t> distNodes(1,this->grafo->getSize());
-
-   // initializes each node with a random color
-   // std::cout << "Initializing randomly: " << grafo->getEnd()-grafo->getBegin() << std::endl;
-   for(auto it = this->grafo->getBegin(); it != this->grafo->getEnd(); it++){
-      // performs casting on each node and set a color to it
-      std::shared_ptr<NodoBI> temp =
-         std::dynamic_pointer_cast<NodoBI>(*it);
-      temp.get()->setColor(distColors(generator));
-   }
-}
-
-void BestImprovement::imprimeGrafo() const {
-   this->grafo->imprimeGrafo();
-}
-
-void BestImprovement::setNumberOfConflicts() {
-   this->grafo->setGraphNumConflicts();
-   numConflicts = this->grafo->getGraphNumConflicts();
-}
-
-/*uint32_t BestImprovement::getNumberOfConflicts() const {
-   return numConflicts;
-}
-
-uint32_t BestImprovement::getNumColors() const {
-   return k;
-}
-
-uint32_t BestImprovement::getNumIterations() const {
-   return numIterations;
-}*/

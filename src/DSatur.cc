@@ -13,34 +13,31 @@
 #include <iterator>
 #include <cinttypes>
 #include <iostream>
+#include <algorithm>
 
 DSatur::DSatur(char *nome_arq) : GCPAlgorithmsDSatur(nome_arq) {}
 
 void DSatur::randomInit() {
-   std::set<std::shared_ptr<NodoDSatur>,fncomp>::iterator it;
+   std::vector<std::shared_ptr<NodoDSatur>>::iterator it;
 
    // generates a new seed
    typedef std::chrono::high_resolution_clock myclock;
    myclock::time_point beggining = myclock::now();
-   myclock::duration d = myclock::now() - beggining;   
+   myclock::duration d = myclock::now() - beggining;
    unsigned seed1 = d.count();
 
    std::default_random_engine generator(seed1);
    std::uniform_int_distribution<uint32_t> distColors(1,MAX_COLORS);
 
    for(it = grafo->getBegin(); it != grafo->getEnd(); it++) {
-      // selects random color to the node
-      std::shared_ptr<NodoDSatur> temp = 
-         std::dynamic_pointer_cast<NodoDSatur>(*it);  
+      // selects a random color to the node
+      std::shared_ptr<NodoDSatur> temp =
+         std::dynamic_pointer_cast<NodoDSatur>(*it);
       temp.get()->setColor(distColors(generator));
+   }
 
-   }
    // sets new degree of saturation values
-   for(it = grafo->getBegin(); it != grafo->getEnd(); it++) {
-      std::shared_ptr<NodoDSatur> temp = 
-         std::dynamic_pointer_cast<NodoDSatur>(*it);  
-      temp.get()->setSatur();
-   }
+   grafo->updateSatur();
 }
 
 // FIXME
@@ -48,36 +45,57 @@ void DSatur::randomInit() {
 // It acts like a greedy algorithm, except that it executes the setSatur()
 // method, that calculates the saturation degree of the vertex in each update
 bool DSatur::runAlgorithm() {
+  // solved nodos
+    std::vector<std::shared_ptr<NodoDSatur>> solvedNodos;
+    std::vector<std::shared_ptr<NodoDSatur>>::iterator it;
 
-   // initializes randomly
-   randomInit();
+    // sorts the nodos vector by degreOfSaturation
+   std::sort(grafo->getBegin(), grafo->getEnd(), fncomp());
 
-   std::set<std::shared_ptr<NodoDSatur>>::iterator it = grafo->getBegin();
-
+   it = grafo->getBegin();
    // It colors the first vertex with the first color
-   std::shared_ptr<NodoDSatur> temp = 
-      std::dynamic_pointer_cast<NodoDSatur>(*it);  
-   
-   temp.get()->setColor(1);   
-   
-   it++;
+   std::shared_ptr<NodoDSatur> temp =
+      std::dynamic_pointer_cast<NodoDSatur>(*it);
 
-   for(; it != grafo->getEnd(); it++) {
-      std::shared_ptr<NodoDSatur> temp = 
-         std::dynamic_pointer_cast<NodoDSatur>(*it);  
-    
-      uint32_t ncolor = temp.get()->setAvailableColor(this->grafo->getSize());
-      // sets this nodo as colored because it can be reordered and
-      // colored again in the same iteration without this step
-      temp.get()->setIsColored(); 
+   temp.get()->setColor(1);
 
-      /*if(ncolor > this->k)
-         this->k = ncolor;   */
-   
-      if(ncolor > this->numColors)
-         this->numColors = ncolor;
-   
-   }
+     // updates the degreeOfSaturation of all nodes
+     grafo->updateSatur();
+
+     // removes the nodo that was colored ad insert it into solved
+     solvedNodos.push_back(temp);
+     grafo->removeFirstNodo();
+
+    while( grafo->getSize() > 0) {
+      // sorts the nodos vector by degreOfSaturation
+      std::sort(grafo->getBegin(), grafo->getEnd(), fncomp());
+
+      it = grafo->getBegin();
+      // It colors the first vertex with the first color
+      std::shared_ptr<NodoDSatur> temp =
+         std::dynamic_pointer_cast<NodoDSatur>(*it);
+
+         // the return value is unused
+         temp.get()->setAvailableColor();
+
+       // updates the degreeOfSaturation of all nodes
+       grafo->updateSatur();
+
+       // removes the nodo that was colored ad insert it into solved
+       solvedNodos.push_back(temp);
+
+       grafo->removeFirstNodo();
+    }
+
+
+   // copies thesolution into nodos
+   grafo->copyNodos(solvedNodos);
+
+   grafo->setNumColors();
+   grafo->setGraphNumConflicts();
+
+   numColors = grafo->getNumColors();
+   numConflicts = grafo->getGraphNumConflicts();
 
    return true;
 }

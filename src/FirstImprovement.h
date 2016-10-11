@@ -15,9 +15,7 @@ public:
    GrafoBI* criaVizinhos();
    bool runAlgorithm();
 
-   // overloaded
    void printR();
-
 };
 
 class fifncomp {

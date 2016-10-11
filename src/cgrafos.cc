@@ -17,11 +17,11 @@ Grafo::Grafo() : GenericGraph() {}
 
 // construtor invoca leitura do arquivo para alocação do grafo
 Grafo::Grafo(char *nomeArq) {
-   this->leDoArquivo(nomeArq);   
+   this->leDoArquivo(nomeArq);
 }
 
 Grafo::Grafo(const Grafo &gh) {
-   nodos        = gh.getNodos();   
+   nodos        = gh.getNodos();
    numConflicts = gh.getGraphNumConflicts();
    numColors    = gh.getNumColors();
 }
@@ -59,7 +59,7 @@ void Grafo::insertInNodos(std::shared_ptr<Nodo> &n) {
 void Grafo::setGraphNumConflicts() {
    numConflicts = 0;
    for(auto ptr : nodos) {
-      ptr.get()->setNodoNumConflicts(); 
+      ptr.get()->setNodoNumConflicts();
       numConflicts += ptr.get()->getNodoNumConflicts();
    }
 }
@@ -126,10 +126,10 @@ void Grafo::leDoArquivo(char *nomeArq) {
             for(uint32_t i = 0; i < this->V; i++) {
                std::shared_ptr<Nodo> t (new Nodo(),[](Nodo *p) {
                   // std::cout << "deleting element\n";
-                  delete p;  
+                  delete p;
                });
                // set container
-               // std::cout << "This guy1\n"; 
+               // std::cout << "This guy1\n";
                this->insertInNodos(t);
             }
 
@@ -145,7 +145,7 @@ void Grafo::leDoArquivo(char *nomeArq) {
 
             // std::cout << tok << " " <<n1 << " " << n2 << std::endl;
             this->callAddVizinho(n1-1,n2-1);
-            this->callAddVizinho(n2-1,n1-1);
+            //this->callAddVizinho(n2-1,n1-1);
          }
       }
       std::getline (inFile,linha);

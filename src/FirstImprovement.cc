@@ -31,13 +31,15 @@ bool FirstImprovement::runAlgorithm() {
    };
 
    // initializes conflicts with random graph number of conflicts
+   // randomInit() also updates the number of colors and conflicts of the graph
+   // we must apply their values locally
    randomInit();
    numConflicts = grafo->getGraphNumConflicts();
-
-   this->setNumberOfConflicts();
+   numColors = grafo->getNumColors();
 
    while(numConflicts > 0 && numIterations < MAX_ITER){
       std::cout << "Numero iteracoes: "<< numIterations << std::endl;
+      std::cout << "Numero colors: "<< numColors << std::endl;
       GrafoBI* t = criaVizinhos();
 
    // updates whether the new graph is better than current one
@@ -46,35 +48,36 @@ bool FirstImprovement::runAlgorithm() {
       if(t == nullptr) {
          std::shared_ptr<GrafoBI> temp (grafo, destroy);
          ranking.push_back(temp);
-         std::cout << ranking.size() << std::endl;
          grafo = new GrafoBI(); 
          randomInit();
          std::cout << "is null\n";
       } else {
-         std::cout << "is different from null\n";
          if(t->getGraphNumConflicts() < grafo->getGraphNumConflicts()){
             delete grafo;
+            //grafo = new GrafoBI(*t);
             grafo = t;
+            std::cout << "is different from nulld\n";
          } else {
             delete t;
-            // TODO: saves current graph
+            // TODO: saves current graph and reinitializes the search
             std::shared_ptr<GrafoBI> tt (new GrafoBI(*grafo),destroy);
-
             ranking.push_back(tt);
+            std::cout << "is different from neulld\n";
+
             randomInit();
          }
       }
+
       // updates stop criteria
-      numIterations++;
       numConflicts = grafo->getGraphNumConflicts();
-      std::cout << "numColors: " << grafo->getNumColors() << "\n";
+      numColors = grafo->getNumColors();
+      numIterations++;
    }
 
    // sets algorithm results
    //k = grafo->numColors();
-   numColors = grafo->getNumColors();
-   numConflicts = grafo->getGraphNumConflicts();
 
+   std::cout << "Numero colors fim: " << numColors << std::endl;
    return true;
 };
 
@@ -107,6 +110,10 @@ GrafoBI* FirstImprovement::criaVizinhos() {
          proxGrafo->setGraphNumConflicts();
          proxGrafo->setNumColors();
 
+         // First improvement algorithm returns in the first improvement of 
+         // number of conflicts function
+         // Alternatively, the best improvement always explores all state space
+         // to find the best option to return
          if(proxGrafo->getGraphNumConflicts() < conflitosOriginal)
             return proxGrafo;
          // deletes proxGraph whether it is worse than the current one

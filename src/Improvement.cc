@@ -8,6 +8,7 @@
 #include <iostream>
 #include <random>
 #include "Improvement.h"
+#include <chrono>
 // FIXME
 #include "../include/registers.h"
 
@@ -27,19 +28,29 @@ void Improvement::criaGrafo(char *nome_arq) {
 // randomly initializes the graph and sets its number of colors
 void Improvement::randomInit() {
 
-   std::default_random_engine generator;
+   // generates a new seed
+   typedef std::chrono::high_resolution_clock myclock;
+   myclock::time_point beggining = myclock::now();
+   myclock::duration d = myclock::now() - beggining;   
+   unsigned seed1 = d.count();
+
+   std::default_random_engine generator(seed1);
    std::uniform_int_distribution<uint32_t> distColors(1,MAX_COLORS);
    std::uniform_int_distribution<uint32_t> distNodes(1,this->grafo->getSize());
+
 
    // initializes each node with a random color
    for(auto it = this->grafo->getBegin(); it != this->grafo->getEnd(); it++){
       // performs casting on each node and set a color to it
       std::shared_ptr<NodoBI> temp =
          std::dynamic_pointer_cast<NodoBI>(*it);
+
       temp.get()->setColor(distColors(generator));
    }
+
    // sets numColors
    grafo->setNumColors();
+   grafo->setGraphNumConflicts();
 }
 
 void Improvement::imprimeGrafo() const {

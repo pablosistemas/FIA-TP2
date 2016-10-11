@@ -14,7 +14,7 @@
 #include <algorithm>
 #include "../include/registers.h"
 
-GrafoDSatur::GrafoDSatur() {}
+GrafoDSatur::GrafoDSatur() : numConflicts(0), numColors(0) {}
 
 GrafoDSatur::~GrafoDSatur() {}
 
@@ -30,16 +30,95 @@ void GrafoDSatur::imprimeGrafo() const {
    return;
 }
 
-std::multiset<std::shared_ptr<NodoDSatur>,fncomp>::iterator GrafoDSatur::getBegin() {
+// returns an iterator for begin nodo
+std::vector<std::shared_ptr<NodoDSatur>>::iterator GrafoDSatur::getBegin() {
    return nodos.begin();
 }
 
-std::multiset<std::shared_ptr<NodoDSatur>,fncomp>::iterator GrafoDSatur::getEnd() {
+// returns an iterator for end nodo
+std::vector<std::shared_ptr<NodoDSatur>>::iterator GrafoDSatur::getEnd() {
    return nodos.end();
 }
 
 size_t GrafoDSatur::getSize() const {
    return this->nodos.size();
+}
+
+// Defines the number of unique neighboring colors. In case of a tie,
+// returns the node with largest degree.
+// This method presumes a initialized graph.
+void GrafoDSatur::updateSatur() {
+
+   for(auto it = nodos.begin(); it != nodos.end(); it++){
+      // TODO
+      std::shared_ptr<NodoDSatur> temp = std::dynamic_pointer_cast<NodoDSatur>(*it);
+      // reevaluates the degree of saturation
+      temp.get()->setSatur();
+   }
+   return;
+}
+
+void GrafoDSatur::insertInNodos(std::shared_ptr<NodoDSatur> &n) {
+   nodos.push_back(n);
+   //std::cout << "length: " << nodos.size() << std::endl;
+}
+
+struct isIdx {
+   isIdx(uint32_t an_index) : index(an_index) {}
+   uint32_t index;
+   bool operator()(const std::shared_ptr<NodoDSatur> &n) const {
+      //std::cout << n.get()->getIdx() << " vs. " << index << std::endl;
+      return n.get()->getIdx() == index;
+   }
+};
+
+void GrafoDSatur::callAddVizinho(uint32_t idx1, uint32_t idx2) {
+   std::function<void(NodoDSatur *)> destroy = [](NodoDSatur *p) {
+      delete p;
+   };
+   nodos[idx1].get()->addVizinho(nodos[idx2]);
+}
+
+// removes the first nodo from the vector
+void GrafoDSatur::removeFirstNodo() {
+   nodos.erase(nodos.begin());
+}
+
+void GrafoDSatur::copyNodos(const std::vector<std::shared_ptr<NodoDSatur>> &n){
+   nodos = n;
+}
+
+// Sets the graph's conflicts number. This is equal the sum of the
+// conflicts for each node in the graph. Nodes conflicts are
+// re-evaluated only when there is a pending modification, on the
+// other hand, the current node conflict number is returned to
+// save time
+void GrafoDSatur::setGraphNumConflicts() {
+   numConflicts = 0;
+   for(auto ptr : nodos) {
+      ptr.get()->setNodoNumConflicts();
+      numConflicts += ptr.get()->getNodoNumConflicts();
+   }
+}
+
+uint32_t GrafoDSatur::getNumColors() const {
+   return numColors;
+}
+
+uint32_t GrafoDSatur::getGraphNumConflicts() const {
+   return numConflicts;
+}
+
+void GrafoDSatur::setNumColors() {
+   std::vector<uint32_t> usedColors(MAX_COLORS,0);
+   uint32_t differentColors = 0;
+   for (auto ptr : nodos) {
+      if(usedColors[ptr.get()->getColor()-1] == 0){
+         usedColors[ptr.get()->getColor()-1]++;
+         differentColors++;
+      }
+   }
+   numColors = differentColors;
 }
 
 void GrafoDSatur::leDoArquivo(char *nomeArq) {
@@ -55,7 +134,6 @@ void GrafoDSatur::leDoArquivo(char *nomeArq) {
    uint32_t n1, n2;
 
    std::getline (inFile,linha);
-
    while(!inFile.eof()){
 
       // se comentario, ignora
@@ -67,16 +145,14 @@ void GrafoDSatur::leDoArquivo(char *nomeArq) {
          if(linha[0] == 'p') {
 
             inbuf >> tok >> tipo >> this->V >> this->E;
-            // std::cout << "inserting: " << tok << " " << tipo << " " << this->V << " " << this->E << std::endl;
-
+            
             // nodos.resize(this->V);
             for(uint32_t i = 0; i < this->V; i++) {
                std::shared_ptr<NodoDSatur> t (new NodoDSatur(i+1),[](NodoDSatur *p) {
                   // std::cout << "deleting element from dsatur graph\n";
-                  delete p;  
+                  delete p;
                });
                // multiset container
-               //std::cout << "inserting : " << i << std::endl;
                this->insertInNodos(t);
             }
 
@@ -85,88 +161,12 @@ void GrafoDSatur::leDoArquivo(char *nomeArq) {
          else {
 
             inbuf >> tok >> n1 >> n2;
-
             this->callAddVizinho(n1-1,n2-1);
-            this->callAddVizinho(n2-1,n1-1);
          }
       }
       std::getline (inFile,linha);
    }
    inFile.close();
-   
+
    // imprimeGrafo();
 }
-
-// Defines the number of unique neighboring colors. In case of a tie,
-// returns the node with largest degree.
-// This method presumes a initialized graph.
-void GrafoDSatur::updateSatur() {
-   
-   std::multiset<std::shared_ptr<NodoDSatur>>::iterator it;
-
-   for(it = this->nodos.begin(); it != this->nodos.end(); it++){
-      // TODO      
-      std::shared_ptr<NodoDSatur> temp = std::dynamic_pointer_cast<NodoDSatur>(*it);
-
-      std::vector<uint32_t> colors(MAX_COLORS,0);
-
-      temp.get()->setSatur();
-   }
-
-   return;
-}
-
-void GrafoDSatur::insertInNodos(std::shared_ptr<NodoDSatur> &n) {
-   nodos.insert(n);
-   //std::cout << "length: " << nodos.size() << std::endl;
-}
-
-struct isIdx {
-   isIdx(uint32_t an_index) : index(an_index) {}
-   uint32_t index; 
-   bool operator()(const std::shared_ptr<NodoDSatur> &n) const {
-      //std::cout << n.get()->getIdx() << " vs. " << index << std::endl;
-      return n.get()->getIdx() == index;
-   }
-};
-
-void GrafoDSatur::callAddVizinho(uint32_t idx1, uint32_t idx2) {
-
-   //std::cout << "Call add vizinho: " << idx1 << " " << idx2 << std::endl;
-
-   std::function<void(NodoDSatur *)> destroy = [](NodoDSatur *p) {
-      delete p;  
-   };
-
-   //std::shared_ptr<NodoDSatur> t1 (new NodoDSatur(idx1),destroy);
-
-   //std::shared_ptr<NodoDSatur> t2 (new NodoDSatur(idx2),destroy);
-
-   // std::multiset<std::shared_ptr<NodoDSatur>>::iterator it1 = nodos.find(t1);
-   // std::multiset<std::shared_ptr<NodoDSatur>>::iterator it2 = nodos.find(t2);
-
-   std::multiset<std::shared_ptr<NodoDSatur>>::iterator it1 = 
-      std::find_if(nodos.begin(), nodos.end(), isIdx(idx1));
-
-   std::multiset<std::shared_ptr<NodoDSatur>>::iterator it2 = 
-      std::find_if(nodos.begin(), nodos.end(), isIdx(idx2));
-
-   if(it1 == nodos.end()) {
-      //std::cout<<"ENding\n";
-   }
-   
-   if(!(it1 == nodos.end() || it2 == nodos.end())){
-      //std::cout << "Found? " << std::endl;
-      //std::cout << "Found: " << it1->get()->getIdx() << std::endl;
-      //std::cout << "Found: " << it2->get()->getIdx() << std::endl;
-
-      it2->get()->addVizinho(*(it1));
-      it1->get()->addVizinho(*(it2));
-
-   } else {
-      std::cout << "Not found!" << std::endl;
-   }
-
-}
-
-

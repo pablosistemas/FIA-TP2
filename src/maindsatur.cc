@@ -12,7 +12,6 @@ int main(int argc, char **argv) {
 
    DSatur dsatur(argv[1]);
    dsatur.runAlgorithm();
-   dsatur.imprimeGrafo();
    dsatur.printResults();
    //std::cout << "Numero de cores utilizadas: " << dsatur.getK() << std::endl;
 
