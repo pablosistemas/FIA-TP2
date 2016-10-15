@@ -10,11 +10,12 @@ class BestImprovement : public Improvement {
 public:
    BestImprovement();
    BestImprovement(char *);
+   BestImprovement(char *, uint32_t, uint32_t);
    ~BestImprovement();
 
    bool runAlgorithm();
    GrafoBI* criaVizinhos();
-   
+
 };
 
 #endif

@@ -40,7 +40,7 @@ void Improvement::randomInit() {
    unsigned seed1 = d.count();
 
    std::default_random_engine generator(seed1);
-   std::uniform_int_distribution<uint32_t> distColors(1,MAX_COLORS);
+   std::uniform_int_distribution<uint32_t> distColors(1,NUM_MAX_COLORS);
    std::uniform_int_distribution<uint32_t> distNodes(1,this->grafo->getSize());
 
    // initializes each node with a random color

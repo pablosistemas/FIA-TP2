@@ -17,6 +17,11 @@
 
 DSatur::DSatur(char *nome_arq) : GCPAlgorithmsDSatur(nome_arq) {}
 
+DSatur::DSatur(char *nome_arq,uint32_t numMaxColors,uint32_t numMaxIter)  : GCPAlgorithmsDSatur(nome_arq) {
+   NUM_MAX_COLORS = numMaxColors;
+   NUM_MAX_ITERATIONS = numMaxIter;
+}
+
 void DSatur::randomInit() {
    std::vector<std::shared_ptr<NodoDSatur>>::iterator it;
 
@@ -27,7 +32,7 @@ void DSatur::randomInit() {
    unsigned seed1 = d.count();
 
    std::default_random_engine generator(seed1);
-   std::uniform_int_distribution<uint32_t> distColors(1,MAX_COLORS);
+   std::uniform_int_distribution<uint32_t> distColors(1,NUM_MAX_COLORS);
 
    for(it = grafo->getBegin(); it != grafo->getEnd(); it++) {
       // selects a random color to the node

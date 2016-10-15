@@ -9,11 +9,14 @@
 #include "DSatur.h"
 
 int main(int argc, char **argv) {
+   if (argc < 4){
+      std::cout << "Usage:\n\t./main path-to-input-file\tmax-number-of-colors\tmax-number-of-iterations\n";
+      exit(EXIT_FAILURE);
+   }
 
-   DSatur dsatur(argv[1]);
+   DSatur dsatur(argv[1],atoi(argv[2]),atoi(argv[3]));
    dsatur.runAlgorithm();
    dsatur.printResults();
-   //std::cout << "Numero de cores utilizadas: " << dsatur.getK() << std::endl;
 
    return 0;
 }

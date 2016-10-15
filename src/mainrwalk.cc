@@ -9,15 +9,14 @@
 #include "RandomWalk.h"
 
 int main(int argc, char **argv) {
-   if (argc < 2){
-      std::cout << "Usage:\n\t./main path-to-input-file\n";
+   if (argc < 4){
+      std::cout << "Usage:\n\t./main path-to-input-file\tmax-number-of-colors\tmax-number-of-iterations\n";
+      exit(EXIT_FAILURE);
    }
 
-   RandomWalk rwalk(argv[1]);
-   //rwalk.imprimeGrafo();
+   RandomWalk rwalk(argv[1],atoi(argv[2]),atoi(argv[3]));
    rwalk.runAlgorithm();
    rwalk.printResults();
-   // std::cout << "Numero de cores utilizadas: " << bi.getNumColors() << "\nNumero de iteracoes: " << bi.getNumIterations() << "\nNumero de conflitos: " << bi.getNumberOfConflicts() <<  std::endl;
 
    return 0;
 }

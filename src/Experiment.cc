@@ -6,9 +6,11 @@
 /* ***************************************************************** */
 #include "Experiment.h"
 #include <iostream>
+#include "../include/registers.h"
 
 //Constructor
-Experiment::Experiment() : numIterations(0), numColors(0), numConflicts(0) {}
+Experiment::Experiment() : numIterations(0), numColors(0), numConflicts(0),
+   NUM_MAX_COLORS(MAX_COLORS), NUM_MAX_ITERATIONS(MAX_ITER) {}
 
 // get current number of iterations
 uint32_t Experiment::getNumIterations() const {

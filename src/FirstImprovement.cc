@@ -17,6 +17,12 @@ FirstImprovement::FirstImprovement(char *nome_arq) : FirstImprovement() {
    this->criaGrafo(nome_arq);
 }
 
+FirstImprovement::FirstImprovement(char *nome_arq, uint32_t numMaxColors, uint32_t numMaxIter) : FirstImprovement() {
+   this->criaGrafo(nome_arq);
+   NUM_MAX_COLORS = numMaxColors;
+   NUM_MAX_ITERATIONS = numMaxIter;
+}
+
 // overloads virtual destructor
 // Improvement class deletes grafo object
 FirstImprovement::~FirstImprovement() {}
@@ -33,7 +39,7 @@ bool FirstImprovement::runAlgorithm() {
    // we must apply their values locally
    randomInit();
 
-   while(numConflicts > 0 && numIterations < MAX_ITER){
+   while(numConflicts > 0 && numIterations < NUM_MAX_ITERATIONS){
       std::cout << "Numero iteracoes: "<< numIterations << std::endl;
       std::cout << "Numero cores: "<< numColors << std::endl;
       std::cout << "Numero conflitos: "<< numConflicts << std::endl;
@@ -97,7 +103,7 @@ GrafoBI* FirstImprovement::criaVizinhos() {
       corOriginal = it->get()->getColor();
       conflitosOriginal = this->getNumberOfConflicts();
 
-      for(uint32_t i = 1; i <= MAX_COLORS; i++) {
+      for(uint32_t i = 1; i <= NUM_MAX_COLORS; i++) {
          // do not selects current graph as a new option
          if(i == corOriginal) continue;
 

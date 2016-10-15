@@ -59,13 +59,13 @@ bool LocalSearch::runAlgorithm(){
    uint32_t seed1 = d.count();
 
    std::default_random_engine generator(seed1);
-   std::uniform_int_distribution<uint32_t> distColors(1,MAX_COLORS_RANDOM);
+   std::uniform_int_distribution<uint32_t> distColors(1,NUM_MAX_COLORS);
    std::uniform_int_distribution<uint32_t> distNodes(0,this->grafo->getSize()-1);
 
    std::vector<std::shared_ptr<Nodo>>::iterator it;
    // repeat
    //for(;;){
-   while(numIterations < MAX_LOCAL_ITER){
+   while(numIterations < NUM_MAX_ITERATIONS){
       // initializes each node with a random color
       randomRestart();
 
@@ -159,7 +159,7 @@ void LocalSearch::randomRestart() {
   uint32_t seed1 = d.count();
 
   std::default_random_engine generator(seed1);
-  std::uniform_int_distribution<uint32_t> distColors(1,MAX_COLORS_RANDOM);
+  std::uniform_int_distribution<uint32_t> distColors(1,NUM_MAX_COLORS);
   std::uniform_int_distribution<uint32_t> distNodes(0,this->grafo->getSize()-1);
 
   for(auto it = this->grafo->getBegin(); it != this->grafo->getEnd(); it++){

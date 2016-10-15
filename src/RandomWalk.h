@@ -6,6 +6,7 @@
 class RandomWalk : public LocalSearch {
 public:
     RandomWalk(char *);
+    RandomWalk(char *, uint32_t, uint32_t);
     virtual ~RandomWalk();
 
     // derived classes must implement this function: random walk, random restart

@@ -9,6 +9,13 @@ protected:
    uint32_t numIterations;
    uint32_t numColors;
    uint32_t numConflicts;
+
+   // these properties must be setted by the leaf object
+   // by default its values is equal to MAX_COLORS and MAX_ITER in
+   // ../include/registers.h, respectively
+   uint32_t NUM_MAX_COLORS;
+   uint32_t NUM_MAX_ITERATIONS;
+
 public:
   // constructor
    Experiment();

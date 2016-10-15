@@ -18,6 +18,12 @@ BestImprovement::BestImprovement(char *nome_arq) : BestImprovement() {
    this->criaGrafo(nome_arq);
 }
 
+BestImprovement::BestImprovement(char *nome_arq, uint32_t numMaxColors, uint32_t numMaxIter) : BestImprovement() {
+   this->criaGrafo(nome_arq);
+   NUM_MAX_COLORS = numMaxColors;
+   NUM_MAX_ITERATIONS = numMaxIter;
+}
+
 // overloads virtual destructor from Improvement class
 BestImprovement::~BestImprovement() {}
 
@@ -31,7 +37,7 @@ bool BestImprovement::runAlgorithm() {
    // initializes conflicts with random graph number of conflicts
    randomInit();
 
-   while(numConflicts > 0 && numIterations < MAX_ITER){
+   while(numConflicts > 0 && numIterations < NUM_MAX_ITERATIONS){
       std::cout << "Numero iteracoes: "<< numIterations << std::endl;
       std::cout << "Numero cores: "<< numColors << std::endl;
       std::cout << "Numero conflitos: "<< numConflicts << std::endl;
