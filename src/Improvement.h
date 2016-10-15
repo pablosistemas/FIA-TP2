@@ -9,37 +9,34 @@
 class Improvement : public Experiment {
 protected:
    GrafoBI * grafo;
-
-   // Algorithm outputs
-   // uint32_t k; // number of colors used to completely color 'grafo'
-   // uint32_t numConflicts; // number of conflicts in 'grafo'
-   // uint32_t numIterations;
-
+   // this vector saves the best graph found during algorithm execution
+   // these graphs are sorted and the best is compared with grafo attribute to
+   // return the best result
    std::vector<std::shared_ptr<GrafoBI>> ranking;
 
 public:
    Improvement();
    Improvement(char *);
-   virtual ~Improvement();
+   ~Improvement();
 
    void criaGrafo(char *);
 
    void imprimeGrafo() const;
-
-   // uint32_t getNumColors() const;
 
    virtual bool runAlgorithm() = 0;
 
    virtual GrafoBI* criaVizinhos() = 0;
 
    void setNumberOfConflicts();
-
-   // uint32_t getNumberOfConflicts() const;
-
+   void setNumberOfColors();
+   
    void randomInit();
 
-   // uint32_t getNumIterations() const;
-
+   void printResults();
 };
 
+class fifncomp {
+public:
+   bool operator()(std::shared_ptr<GrafoBI> &, std::shared_ptr<GrafoBI> &);
+};
 #endif

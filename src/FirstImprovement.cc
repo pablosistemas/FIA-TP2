@@ -7,7 +7,6 @@
 
 #include <iostream>
 #include <random>
-#include <algorithm>
 #include "FirstImprovement.h"
 // FIXME
 #include "../include/registers.h"
@@ -19,9 +18,8 @@ FirstImprovement::FirstImprovement(char *nome_arq) : FirstImprovement() {
 }
 
 // overloads virtual destructor
-FirstImprovement::~FirstImprovement() {
-   delete grafo;   
-}
+// Improvement class deletes grafo object
+FirstImprovement::~FirstImprovement() {}
 
 bool FirstImprovement::runAlgorithm() {
 
@@ -34,22 +32,28 @@ bool FirstImprovement::runAlgorithm() {
    // randomInit() also updates the number of colors and conflicts of the graph
    // we must apply their values locally
    randomInit();
-   numConflicts = grafo->getGraphNumConflicts();
-   numColors = grafo->getNumColors();
 
    while(numConflicts > 0 && numIterations < MAX_ITER){
       std::cout << "Numero iteracoes: "<< numIterations << std::endl;
-      std::cout << "Numero colors: "<< numColors << std::endl;
+      std::cout << "Numero cores: "<< numColors << std::endl;
+      std::cout << "Numero conflitos: "<< numConflicts << std::endl;
       GrafoBI* t = criaVizinhos();
-
+      // int temp;
+      // std::cin >> temp;
    // updates whether the new graph is better than current one
    // else, random we reach a minimal local point, it must be updated
    // creates a new random graph whether criaVizinhos returns nullptr
       if(t == nullptr) {
-         std::shared_ptr<GrafoBI> temp (grafo, destroy);
+         std::shared_ptr<GrafoBI> temp (new GrafoBI(*grafo), destroy);
          ranking.push_back(temp);
-         grafo = new GrafoBI(); 
+         // creates another grafoBI and restarts again!
+         // std::cout << "Antes\n";
+         // std::cout << "Numero cores: "<< numColors << std::endl;
+         // std::cout << "Numero conflitos: "<< numConflicts << std::endl;
          randomInit();
+         // std::cout << "Depois\n";
+         // std::cout << "Numero cores: "<< numColors << std::endl;
+         // std::cout << "Numero conflitos: "<< numConflicts << std::endl;
          std::cout << "is null\n";
       } else {
          if(t->getGraphNumConflicts() < grafo->getGraphNumConflicts()){
@@ -62,27 +66,25 @@ bool FirstImprovement::runAlgorithm() {
             // TODO: saves current graph and reinitializes the search
             std::shared_ptr<GrafoBI> tt (new GrafoBI(*grafo),destroy);
             ranking.push_back(tt);
-            std::cout << "is different from neulld\n";
+            std::cout << "is different from null\n";
 
             randomInit();
          }
       }
 
-      // updates stop criteria
+      // sets algorithm results and updates stop criteria
       numConflicts = grafo->getGraphNumConflicts();
       numColors = grafo->getNumColors();
       numIterations++;
    }
 
-   // sets algorithm results
-   //k = grafo->numColors();
-
-   std::cout << "Numero colors fim: " << numColors << std::endl;
+   std::cout << "Numero cores fim: " << numColors << std::endl;
    return true;
 };
 
 GrafoBI* FirstImprovement::criaVizinhos() {
-
+   // creates a null pointer that will be filled with the first graph
+   // that improves the current graph state
    GrafoBI* proxGrafo(nullptr);
 
    auto begin = this->grafo->getBegin();
@@ -110,7 +112,7 @@ GrafoBI* FirstImprovement::criaVizinhos() {
          proxGrafo->setGraphNumConflicts();
          proxGrafo->setNumColors();
 
-         // First improvement algorithm returns in the first improvement of 
+         // First improvement algorithm returns in the first improvement of
          // number of conflicts function
          // Alternatively, the best improvement always explores all state space
          // to find the best option to return
@@ -123,34 +125,4 @@ GrafoBI* FirstImprovement::criaVizinhos() {
    }
    // no improvement :(
    return nullptr;
-}
-
-void FirstImprovement::printR() {
-   // looks for the minimal conflict graph inside ranking
-   std::sort(ranking.begin(), ranking.end(), fifncomp());
-   if(grafo->getGraphNumConflicts() > 
-         ranking.begin()->get()->getGraphNumConflicts() || 
-         (grafo->getGraphNumConflicts() == 
-         ranking.begin()->get()->getGraphNumConflicts() && 
-         grafo->getNumColors() > 
-         ranking.begin()->get()->getNumColors())){
-
-      delete grafo;
-      grafo = ranking.begin()->get();
-
-   }
-   std::cout << "Numero de cores utilizadas: " << numColors 
-      << "\nNumero de iteracoes: " << numIterations
-      << "\nNumero de conflitos: " << numConflicts
-      <<  std::endl;
-}
-
-// Returns true whether n1 has less conflicts than n2. In matching,
-// returns the graph that has used less colors
-bool fifncomp::operator()(std::shared_ptr<GrafoBI> &n1,std::shared_ptr<GrafoBI> &n2) {
-   bool isLess = n1.get()->getGraphNumConflicts();
-   if(n1.get()->getGraphNumConflicts() == n2.get()->getGraphNumConflicts())
-      return n1.get()->getNumColors() < n2.get()->getNumColors();
-   else
-      return isLess;
 }

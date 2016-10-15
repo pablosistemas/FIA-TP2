@@ -14,7 +14,7 @@ public:
 
    bool runAlgorithm();
    GrafoBI* criaVizinhos();
-
+   
 };
 
 #endif

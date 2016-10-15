@@ -19,26 +19,27 @@ BestImprovement::BestImprovement(char *nome_arq) : BestImprovement() {
 }
 
 // overloads virtual destructor from Improvement class
-BestImprovement::~BestImprovement() { 
-   delete grafo;
-}
+BestImprovement::~BestImprovement() {}
 
 bool BestImprovement::runAlgorithm() {
 
    std::function<void(GrafoBI *)> destroy = [] (GrafoBI *p) {
-      std::cout << "deleting grafoBI\n";
+      //std::cout << "deleting grafoBI\n";
       delete p;
    };
 
    // initializes conflicts with random graph number of conflicts
    randomInit();
-   setNumberOfConflicts();
 
    while(numConflicts > 0 && numIterations < MAX_ITER){
-      // Presuming that criaViznhos always will return a valid pointer?
+      std::cout << "Numero iteracoes: "<< numIterations << std::endl;
+      std::cout << "Numero cores: "<< numColors << std::endl;
+      std::cout << "Numero conflitos: "<< numConflicts << std::endl;
       GrafoBI* t = criaVizinhos();
 
       if(t == nullptr) {
+         std::shared_ptr<GrafoBI> temp (new GrafoBI(*grafo), destroy);
+         ranking.push_back(temp);
          randomInit();
       }
       // if the new graph is better than current one, updates
@@ -60,15 +61,13 @@ bool BestImprovement::runAlgorithm() {
       numColors = grafo->getNumColors();
       numIterations++;
    }
-
-   grafo->setNumColors();
-   numColors = grafo->getNumColors();
-
+   std::cout << "Numero cores fim: " << numColors << std::endl;
    return true;
 };
 
 GrafoBI* BestImprovement::criaVizinhos() {
-
+   // creates a null pointer that will be filled with the first graph
+   // that improves the current graph state
    GrafoBI* proxGrafo(nullptr);
 
    auto begin = this->grafo->getBegin();
@@ -99,8 +98,9 @@ GrafoBI* BestImprovement::criaVizinhos() {
          auto itg = g->getBegin() + (it-begin);
          itg->get()->setColor(i);
 
+        // configures the nummber of conflicts for each nodo
          g->setGraphNumConflicts();
-
+         g->setNumColors();
          //std::cout << "grafo modificado:\n";
          //g.get()->imprimeGrafo();
 
